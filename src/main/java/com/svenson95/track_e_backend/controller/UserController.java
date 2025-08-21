@@ -25,11 +25,6 @@ public class UserController {
         return userRepository.save(user);
     }
 
-    @PostMapping("/create")
-    public User createUser(@RequestBody User user) {
-        return userRepository.save(user);
-    }
-
     @PutMapping("/edit/{id}")
     public User editUser(@PathVariable String id, @RequestBody User newUser) {
         Optional<User> optionalUser = userRepository.findById(id);
