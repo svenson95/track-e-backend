@@ -10,12 +10,14 @@ public class User {
 
     private String name;
     private String email;
+    private Number weight;
 
     public User() {}
 
-    public User(String name, String email) {
+    public User(String name, String email, Number weight) {
         this.name = name;
         this.email = email;
+        this.weight = weight;
     }
 
     public String getId() { return id; }
@@ -26,4 +28,7 @@ public class User {
 
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
+
+    public Number getWeight() { return weight; }
+    public void setWeight(Number weight) { this.weight = weight; }
 }
