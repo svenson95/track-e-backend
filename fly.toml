@@ -1,9 +1,9 @@
-# fly.toml app configuration file generated for track-e-backend on 2025-08-21T21:48:54Z
+# fly.toml app configuration file generated for trackthat-backend on 2025-08-21T21:48:54Z
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'track-e-backend'
+app = 'trackthat-backend'
 primary_region = 'fra'
 
 [build]

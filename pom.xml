@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.svenson95</groupId>
-	<artifactId>track-e-backend</artifactId>
+	<artifactId>trackthat-backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>track-e-backend</name>
-	<description>Backend project for track-e</description>
+	<name>trackthat-backend</name>
+	<description>Backend project for TrackThat</description>
 	<url/>
 	<licenses>
 		<license/>

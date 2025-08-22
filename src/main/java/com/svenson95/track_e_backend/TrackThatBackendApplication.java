@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class TrackEBackendApplication {
+public class TrackThatBackendApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(TrackEBackendApplication.class, args);
+		SpringApplication.run(TrackThatBackendApplication.class, args);
 	}
 
 }

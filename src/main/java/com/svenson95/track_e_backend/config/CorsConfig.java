@@ -8,7 +8,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class CorsConfig {
     static String DEV_ENV = "http://localhost:8100";
-    static String PROD_ENV = "https://track-e-mobile-app.vercel.app";
+    static String PROD_ENV = "https://trackthat-mobile-app.vercel.app";
 
     @Bean
     public WebMvcConfigurer corsConfigurer() {
