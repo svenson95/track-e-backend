@@ -14,7 +14,7 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:8100") // Ionic Frontend Port
+                        .allowedOrigins("http://localhost:8100", "https://track-e-mobile-app.vercel.app") // Ionic Frontend Port
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*");
             }
