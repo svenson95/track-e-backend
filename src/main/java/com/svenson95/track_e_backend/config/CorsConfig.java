@@ -7,6 +7,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class CorsConfig {
+    static String DEV_ENV = "http://localhost:8100";
+    static String PROD_ENV = "https://track-e-mobile-app.vercel.app";
 
     @Bean
     public WebMvcConfigurer corsConfigurer() {
@@ -14,7 +16,7 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:8100", "https://track-e-mobile-app.vercel.app") // Ionic Frontend Port
+                        .allowedOrigins(DEV_ENV, PROD_ENV)
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*");
             }
