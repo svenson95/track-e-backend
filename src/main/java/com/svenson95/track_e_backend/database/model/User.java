@@ -1,4 +1,4 @@
-package com.svenson95.track_e_backend.model;
+package com.svenson95.track_e_backend.database.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;

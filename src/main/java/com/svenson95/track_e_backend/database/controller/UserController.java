@@ -1,4 +1,4 @@
-package com.svenson95.track_e_backend.controller;
+package com.svenson95.track_e_backend.database.controller;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.svenson95.track_e_backend.model.User;
-import com.svenson95.track_e_backend.repository.UserRepository;
+import com.svenson95.track_e_backend.database.model.User;
+import com.svenson95.track_e_backend.database.repository.UserRepository;
 
 @RestController
 @RequestMapping("/api/users")
