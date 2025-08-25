@@ -1,6 +1,7 @@
 package com.svenson95.track_e_backend.auth.service;
 
 import java.security.Key;
+import java.util.Base64;
 import java.util.Date;
 import java.util.Map;
 
@@ -13,11 +14,11 @@ import io.jsonwebtoken.security.Keys;
 @Service
 public class JwtService {
 
-    private static final String SECRET_KEY = "a209db5fe27d92bac0e714fc47d63a9c"; // TODO: read from config
+    private static final String SECRET_KEY = "00a9ecb1c6ec3f61b678d1a07b25542e1c09b83a2fedec0a1ed8774bb2ee2bac"; // TODO: read from config
     private static final long EXPIRATION_TIME = 1000 * 60 * 60 * 24 * 7; // 7 days
 
     public String generateToken(Map<String, Object> userInfo) {
-        Key key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
+        Key key = Keys.hmacShaKeyFor(Base64.getDecoder().decode(SECRET_KEY));
 
         return Jwts.builder()
                 .setSubject(userInfo.get("email").toString())
