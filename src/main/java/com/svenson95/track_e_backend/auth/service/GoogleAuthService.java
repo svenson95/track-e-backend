@@ -18,7 +18,7 @@ import com.svenson95.track_e_backend.database.repository.UserRepository;
 @Service
 public class GoogleAuthService {
 
-    private static final String CLIENT_ID = "81384485805-o4b55e424moljjf98egavlhol819l18a.apps.googleusercontent.com";
+    private static final String CLIENT_ID = System.getenv("CLIENT_ID");
 
     @Autowired
     private UserRepository userRepository;
