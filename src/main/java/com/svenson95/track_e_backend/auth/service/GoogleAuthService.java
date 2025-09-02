@@ -56,12 +56,12 @@ public class GoogleAuthService {
         if (!userRepository.existsById(userId)) {
             User user = new User();
 
-            user.setId(userId);
+            user.setGoogleId(userId);
             user.setEmail(payload.getEmail());
             user.setName((String) payload.get("name"));
             user.setPicture((String) payload.get("picture"));
-            user.setWeight((Number) payload.get("weight"));
-            user.setHeight((Number) payload.get("height"));
+            user.setWeight(0);
+            user.setHeight(0);
 
             userRepository.save(user);
         }

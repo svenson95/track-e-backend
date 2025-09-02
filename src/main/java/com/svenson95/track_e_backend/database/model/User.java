@@ -8,6 +8,7 @@ public class User {
     @Id
     private String id;
 
+    private String googleId;
     private String name;
     private String picture;
     private String email;
@@ -16,7 +17,8 @@ public class User {
 
     public User() {}
 
-    public User(String name, String picture, String email, Number weight, Number height) {
+    public User(String googleId, String name, String picture, String email, Number weight, Number height) {
+        this.googleId = googleId;
         this.name = name;
         this.picture = picture;
         this.email = email;
@@ -26,6 +28,9 @@ public class User {
 
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
+
+    public String getGoogleId() { return googleId; }
+    public void setGoogleId(String googleId) { this.googleId = googleId; }
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
