@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.svenson95.track_e_backend.database.model.UserWorkouts;
+import com.svenson95.track_e_backend.database.model.UserWorkouts.WorkoutData;
 import com.svenson95.track_e_backend.database.repository.UserWorkoutsRepository;
 
 @RestController
@@ -27,9 +28,13 @@ public class UserWorkoutsController {
             .orElseThrow(() -> new RuntimeException("UserWorkouts not found - id: " + id));
     }
 
-    @PostMapping("/add")
-    public UserWorkouts addUserWorkouts(@RequestBody UserWorkouts userWorkouts) {
-        return userWorkoutsRepository.save(userWorkouts);
+    @PostMapping("/add/{id}")
+    public WorkoutData addUserWorkouts(@PathVariable String id, @RequestBody WorkoutData workoutData) {
+        UserWorkouts userWorkouts = userWorkoutsRepository.findByUserId(id)
+            .orElseThrow(() -> new RuntimeException("UserWorkouts not found - id: " + id));
+        userWorkouts.getWorkouts().add(workoutData);
+        userWorkoutsRepository.save(userWorkouts);
+        return workoutData;
     }
 
     @PutMapping("/edit/{id}")
