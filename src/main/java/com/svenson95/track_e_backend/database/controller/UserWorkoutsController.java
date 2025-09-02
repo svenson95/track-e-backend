@@ -23,14 +23,46 @@ public class UserWorkoutsController {
     private UserWorkoutsRepository userWorkoutsRepository;
 
     @GetMapping("/id/{userId}")
-    public UserWorkouts getUserWorkouts(@PathVariable String userId) {
-        return userWorkoutsRepository.findByUserId(userId)
+    public UserWorkoutListDTO getUserWorkouts(@PathVariable String userId) {
+        UserWorkouts userWorkouts = userWorkoutsRepository.findByUserId(userId)
         .orElseGet(() -> {
             UserWorkouts newUserWorkouts = new UserWorkouts();
             newUserWorkouts.setUserId(userId);
             newUserWorkouts.setWorkouts(new java.util.ArrayList<>());
             return userWorkoutsRepository.save(newUserWorkouts);
         });
+
+        return new UserWorkoutListDTO(userWorkouts.getId(), userWorkouts.getUserId());
+    }
+
+    public class UserWorkoutListDTO {
+        private final String id;
+        private final String userId;
+
+        public UserWorkoutListDTO(String id, String userId) {
+            this.id = id;
+            this.userId = userId;
+        }
+
+        public String getId() { return id; }
+        public String getUserId() { return userId; }
+    }
+
+    @GetMapping("/id/{userId}/${name}")
+    public WorkoutData getUserWorkouts(@PathVariable String userId, @PathVariable String name) {
+        UserWorkouts userWorkouts = userWorkoutsRepository.findByUserId(userId)
+        .orElseGet(() -> {
+            UserWorkouts newUserWorkouts = new UserWorkouts();
+            newUserWorkouts.setUserId(userId);
+            newUserWorkouts.setWorkouts(new java.util.ArrayList<>());
+            return userWorkoutsRepository.save(newUserWorkouts);
+        });
+        return userWorkouts
+            .getWorkouts()
+            .stream()
+            .filter(w -> w.getName().equals(name))
+            .findFirst()
+            .orElseThrow(() -> new RuntimeException("Get workout data failed: " + name));
     }
 
     @PostMapping("/add/{userId}")
