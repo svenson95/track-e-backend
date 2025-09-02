@@ -22,16 +22,21 @@ public class UserWorkoutsController {
     @Autowired
     private UserWorkoutsRepository userWorkoutsRepository;
 
-    @GetMapping("/id/{id}")
-    public UserWorkouts getUserWorkouts(@PathVariable String id) {
-        return userWorkoutsRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("UserWorkouts not found - id: " + id));
+    @GetMapping("/id/{userId}")
+    public UserWorkouts getUserWorkouts(@PathVariable String userId) {
+        return userWorkoutsRepository.findByUserId(userId)
+        .orElseGet(() -> {
+            UserWorkouts newUserWorkouts = new UserWorkouts();
+            newUserWorkouts.setUserId(userId);
+            newUserWorkouts.setWorkouts(new java.util.ArrayList<>());
+            return userWorkoutsRepository.save(newUserWorkouts);
+        });
     }
 
-    @PostMapping("/add/{id}")
-    public WorkoutData addUserWorkouts(@PathVariable String id, @RequestBody WorkoutData workoutData) {
-        UserWorkouts userWorkouts = userWorkoutsRepository.findByUserId(id)
-            .orElseThrow(() -> new RuntimeException("UserWorkouts not found - id: " + id));
+    @PostMapping("/add/{userId}")
+    public WorkoutData addUserWorkouts(@PathVariable String userId, @RequestBody WorkoutData workoutData) {
+        UserWorkouts userWorkouts = userWorkoutsRepository.findByUserId(userId)
+            .orElseThrow(() -> new RuntimeException("UserWorkouts not found - userId: " + userId));
         userWorkouts.getWorkouts().add(workoutData);
         userWorkoutsRepository.save(userWorkouts);
         return workoutData;
