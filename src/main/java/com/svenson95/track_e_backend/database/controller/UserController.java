@@ -37,8 +37,12 @@ public class UserController {
         Optional<User> optionalUser = userRepository.findById(id);
         if (optionalUser.isPresent()) {
             User existingUser = optionalUser.get();
+            existingUser.setGoogleId(newUser.getGoogleId());
             existingUser.setName(newUser.getName());
             existingUser.setEmail(newUser.getEmail());
+            existingUser.setPicture(newUser.getPicture());
+            existingUser.setWeight(newUser.getWeight());
+            existingUser.setHeight(newUser.getHeight());
             return userRepository.save(existingUser);
         } else {
             throw new RuntimeException("User not found - id: " + id);
