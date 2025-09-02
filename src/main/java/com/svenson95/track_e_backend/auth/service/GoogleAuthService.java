@@ -53,7 +53,7 @@ public class GoogleAuthService {
     private void registerUser(GoogleIdToken.Payload payload) {
         String userId = payload.getSubject();
 
-        if (!userRepository.existsById(userId)) {
+        if (!userRepository.existsByGoogleId(userId)) {
             User user = new User();
 
             user.setGoogleId(userId);
