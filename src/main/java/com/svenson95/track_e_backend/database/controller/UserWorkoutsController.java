@@ -20,19 +20,16 @@ public class UserWorkoutsController {
   @Autowired private UserWorkoutsRepository userWorkoutsRepository;
 
   @GetMapping("/id/{userId}")
-  public UserWorkoutListDTO getUserWorkouts(@PathVariable String userId) {
-    UserWorkouts userWorkouts =
-        userWorkoutsRepository
-            .findByUserId(userId)
-            .orElseGet(
-                () -> {
-                  UserWorkouts newUserWorkouts = new UserWorkouts();
-                  newUserWorkouts.setUserId(userId);
-                  newUserWorkouts.setWorkouts(new java.util.ArrayList<>());
-                  return userWorkoutsRepository.save(newUserWorkouts);
-                });
-
-    return new UserWorkoutListDTO(userWorkouts.getId(), userWorkouts.getUserId());
+  public UserWorkouts getUserWorkouts(@PathVariable String userId) {
+    return userWorkoutsRepository
+        .findByUserId(userId)
+        .orElseGet(
+            () -> {
+              UserWorkouts newUserWorkouts = new UserWorkouts();
+              newUserWorkouts.setUserId(userId);
+              newUserWorkouts.setWorkouts(new java.util.ArrayList<>());
+              return userWorkoutsRepository.save(newUserWorkouts);
+            });
   }
 
   public class UserWorkoutListDTO {
@@ -53,8 +50,8 @@ public class UserWorkoutsController {
     }
   }
 
-  @GetMapping("/id/{userId}/{name}")
-  public WorkoutData getUserWorkout(@PathVariable String userId, @PathVariable String name) {
+  @GetMapping("/id/{userId}/{workoutId}")
+  public WorkoutData getUserWorkout(@PathVariable String userId, @PathVariable Long workoutId) {
     UserWorkouts userWorkouts =
         userWorkoutsRepository
             .findByUserId(userId)
@@ -66,9 +63,9 @@ public class UserWorkoutsController {
                   return userWorkoutsRepository.save(newUserWorkouts);
                 });
     return userWorkouts.getWorkouts().stream()
-        .filter(w -> w.getName().equals(name))
+        .filter(w -> w.getWorkoutId().equals(workoutId))
         .findFirst()
-        .orElseThrow(() -> new RuntimeException("Get workout data failed: " + name));
+        .orElseThrow(() -> new RuntimeException("Get workout data failed: " + workoutId));
   }
 
   @PostMapping("/add/{userId}")
