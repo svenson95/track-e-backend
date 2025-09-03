@@ -10,7 +10,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class CorsConfig {
     static String DEV_ENV = "http://localhost:8100";
 
-    @Value("${PROD_ENV:}")
+    @Value("${prod.env:}")
     private String PROD_ENV;
 
     @Bean

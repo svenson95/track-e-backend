@@ -19,7 +19,7 @@ import com.svenson95.track_e_backend.database.repository.UserRepository;
 @Service
 public class GoogleAuthService {
 
-    @Value("${GOOGLE_CLIENT_ID:}")
+    @Value("${google.client.id:}")
     private String CLIENT_ID;
 
     @Autowired
