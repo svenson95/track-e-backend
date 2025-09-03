@@ -5,10 +5,17 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import jakarta.annotation.PostConstruct;
+
 @Configuration
 public class CorsConfig {
     static String DEV_ENV = "http://localhost:8100";
     static String PROD_ENV = System.getenv("PROD_ENV");
+
+    @PostConstruct
+    public void logEnv() {
+        System.out.println(">>> PROD_ENV = " + PROD_ENV);
+    }
 
     @Bean
     public WebMvcConfigurer corsConfigurer() {
