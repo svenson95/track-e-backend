@@ -50,24 +50,6 @@ public class UserWorkoutsController {
     }
   }
 
-  @GetMapping("/id/{userId}/{workoutId}")
-  public WorkoutData getUserWorkout(@PathVariable String userId, @PathVariable Long workoutId) {
-    UserWorkouts userWorkouts =
-        userWorkoutsRepository
-            .findByUserId(userId)
-            .orElseGet(
-                () -> {
-                  UserWorkouts newUserWorkouts = new UserWorkouts();
-                  newUserWorkouts.setUserId(userId);
-                  newUserWorkouts.setWorkouts(new java.util.ArrayList<>());
-                  return userWorkoutsRepository.save(newUserWorkouts);
-                });
-    return userWorkouts.getWorkouts().stream()
-        .filter(w -> w.getWorkoutId().equals(workoutId))
-        .findFirst()
-        .orElseThrow(() -> new RuntimeException("Get workout data failed: " + workoutId));
-  }
-
   @PostMapping("/add/{userId}")
   public WorkoutData addUserWorkouts(
       @PathVariable String userId, @RequestBody WorkoutData workoutData) {
