@@ -54,7 +54,7 @@ public class UserWorkoutsController {
   }
 
   @GetMapping("/id/{userId}/{name}")
-  public WorkoutData getUserWorkouts(@PathVariable String userId, @PathVariable String name) {
+  public WorkoutData getUserWorkout(@PathVariable String userId, @PathVariable String name) {
     UserWorkouts userWorkouts =
         userWorkoutsRepository
             .findByUserId(userId)
