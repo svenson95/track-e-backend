@@ -6,7 +6,6 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
 import com.svenson95.track_e_backend.database.model.User;
 import com.svenson95.track_e_backend.database.repository.UserRepository;
-import jakarta.annotation.PostConstruct;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.Collections;
@@ -19,11 +18,6 @@ public class GoogleAuthService {
   static String CLIENT_ID = System.getenv("GOOGLE_CLIENT_ID");
 
   @Autowired private UserRepository userRepository;
-
-  @PostConstruct
-  public void logGoogleClientId() {
-    System.out.println(">>> GOOGLE_CLIENT_ID = " + CLIENT_ID);
-  }
 
   public Map<String, Object> verifyToken(String idTokenString) {
     try {
