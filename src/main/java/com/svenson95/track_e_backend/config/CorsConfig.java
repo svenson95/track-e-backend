@@ -1,5 +1,6 @@
 package com.svenson95.track_e_backend.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -8,7 +9,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class CorsConfig {
     static String DEV_ENV = "http://localhost:8100";
-    static String PROD_ENV = System.getenv("PROD_ENV");
+
+    @Value("${PROD_ENV:}")
+    private String PROD_ENV;
 
     @Bean
     public WebMvcConfigurer corsConfigurer() {

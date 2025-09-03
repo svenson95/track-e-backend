@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
@@ -18,7 +19,8 @@ import com.svenson95.track_e_backend.database.repository.UserRepository;
 @Service
 public class GoogleAuthService {
 
-    private static final String CLIENT_ID = System.getenv("CLIENT_ID");
+    @Value("${GOOGLE_CLIENT_ID:}")
+    private String CLIENT_ID;
 
     @Autowired
     private UserRepository userRepository;
