@@ -1,8 +1,9 @@
 package com.svenson95.track_e_backend.database.controller;
 
+import com.svenson95.track_e_backend.database.model.User;
+import com.svenson95.track_e_backend.database.repository.UserRepository;
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,40 +13,36 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.svenson95.track_e_backend.database.model.User;
-import com.svenson95.track_e_backend.database.repository.UserRepository;
-
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
 
-    @Autowired
-    private UserRepository userRepository;
+  @Autowired private UserRepository userRepository;
 
-    @GetMapping("/")
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
-    }
+  @GetMapping("/")
+  public List<User> getAllUsers() {
+    return userRepository.findAll();
+  }
 
-    @PostMapping("/add")
-    public User addUser(@RequestBody User user) {
-        return userRepository.save(user);
-    }
+  @PostMapping("/add")
+  public User addUser(@RequestBody User user) {
+    return userRepository.save(user);
+  }
 
-    @PutMapping("/edit/{id}")
-    public User editUser(@PathVariable String id, @RequestBody User newUser) {
-        Optional<User> optionalUser = userRepository.findById(id);
-        if (optionalUser.isPresent()) {
-            User existingUser = optionalUser.get();
-            existingUser.setGoogleId(newUser.getGoogleId());
-            existingUser.setName(newUser.getName());
-            existingUser.setEmail(newUser.getEmail());
-            existingUser.setPicture(newUser.getPicture());
-            existingUser.setWeight(newUser.getWeight());
-            existingUser.setHeight(newUser.getHeight());
-            return userRepository.save(existingUser);
-        } else {
-            throw new RuntimeException("User not found - id: " + id);
-        }
+  @PutMapping("/edit/{id}")
+  public User editUser(@PathVariable String id, @RequestBody User newUser) {
+    Optional<User> optionalUser = userRepository.findById(id);
+    if (optionalUser.isPresent()) {
+      User existingUser = optionalUser.get();
+      existingUser.setGoogleId(newUser.getGoogleId());
+      existingUser.setName(newUser.getName());
+      existingUser.setEmail(newUser.getEmail());
+      existingUser.setPicture(newUser.getPicture());
+      existingUser.setWeight(newUser.getWeight());
+      existingUser.setHeight(newUser.getHeight());
+      return userRepository.save(existingUser);
+    } else {
+      throw new RuntimeException("User not found - id: " + id);
     }
+  }
 }
