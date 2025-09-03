@@ -15,7 +15,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class GoogleAuthService {
-  static String CLIENT_ID = System.getenv("GOOGLE_CLIENT_ID");
+  static String CLIENT_ID =
+      "81384485805-o4b55e424moljjf98egavlhol819l18a.apps.googleusercontent.com";
 
   @Autowired private UserRepository userRepository;
 
