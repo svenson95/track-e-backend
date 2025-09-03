@@ -45,16 +45,26 @@ public class UserWorkouts {
   // --- Nested Classes ---
 
   public static class WorkoutData {
+    private Long workoutId;
     private String lastUpdated; // UnixTimestring
     private String name;
     private List<ListItem> list;
 
     public WorkoutData() {}
 
-    public WorkoutData(Long id, String lastUpdated, String name, List<ListItem> list) {
+    public WorkoutData(Long workoutId, String lastUpdated, String name, List<ListItem> list) {
+      this.workoutId = workoutId;
       this.lastUpdated = lastUpdated;
       this.name = name;
       this.list = list;
+    }
+
+    public Long getWorkoutId() {
+      return workoutId;
+    }
+
+    public void setWorkoutId(Long workoutId) {
+      this.workoutId = workoutId;
     }
 
     public String getLastUpdated() {
