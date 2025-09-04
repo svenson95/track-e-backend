@@ -50,8 +50,7 @@ public class AuthController {
                   newUser.setPicture((String) userInfo.get("picture"));
                   newUser.setWeight(0);
                   newUser.setHeight(0);
-                  userRepository.save(newUser);
-                  return newUser;
+                  return userRepository.save(newUser);
                 });
 
     return ResponseEntity.ok(

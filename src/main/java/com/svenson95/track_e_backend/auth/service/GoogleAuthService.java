@@ -4,20 +4,16 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
-import com.svenson95.track_e_backend.database.repository.UserRepository;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.Collections;
 import java.util.Map;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class GoogleAuthService {
 
   private static final String CLIENT_ID = System.getenv("GOOGLE_CLIENT_ID");
-
-  @Autowired private UserRepository userRepository;
 
   public Map<String, Object> verifyToken(String idTokenString) {
     try {
