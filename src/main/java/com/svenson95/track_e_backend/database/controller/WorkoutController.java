@@ -20,7 +20,15 @@ public class WorkoutController {
 
   @GetMapping("/get/{userId}")
   public List<Workout> getWorkouts(@PathVariable String userId) {
-    return workoutsRepository.findByUserId(userId).orElse(Collections.emptyList());
+    List<Workout> workouts = workoutsRepository.findByUserId(userId).get();
+
+    if (workouts == null || workouts.isEmpty()) {
+      return Collections.emptyList();
+    } else if (workouts.size() == 1) {
+      return Collections.singletonList(workouts.get(0));
+    } else {
+      return workouts;
+    }
   }
 
   @PostMapping("/add")

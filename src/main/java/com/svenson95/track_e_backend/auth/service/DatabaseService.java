@@ -5,7 +5,9 @@ import com.svenson95.track_e_backend.database.repository.UserRepository;
 import java.util.ArrayList;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class DatabaseService {
   @Autowired private UserRepository userRepository;
 
