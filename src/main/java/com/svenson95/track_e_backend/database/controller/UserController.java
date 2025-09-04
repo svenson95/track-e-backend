@@ -40,7 +40,6 @@ public class UserController {
       existingUser.setPicture(newUser.getPicture());
       existingUser.setWeight(newUser.getWeight());
       existingUser.setHeight(newUser.getHeight());
-      existingUser.setWorkouts(newUser.getWorkouts());
       return userRepository.save(existingUser);
     } else {
       throw new RuntimeException("User not found - id: " + id);
