@@ -2,6 +2,7 @@ package com.svenson95.track_e_backend.database.controller;
 
 import com.svenson95.track_e_backend.database.model.Workout;
 import com.svenson95.track_e_backend.database.repository.WorkoutRepository;
+import com.svenson95.track_e_backend.database.service.UserService;
 import java.util.Collections;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class WorkoutController {
 
   @Autowired private WorkoutRepository workoutsRepository;
+  @Autowired private UserService userService;
 
   @GetMapping("/get/{userId}")
   public List<Workout> getWorkouts(@PathVariable String userId) {
@@ -33,6 +35,7 @@ public class WorkoutController {
 
   @PostMapping("/add")
   public Workout addWorkout(@RequestBody Workout workout) {
+    userService.addWorkoutToList(workout);
     return workoutsRepository.save(workout);
   }
 
