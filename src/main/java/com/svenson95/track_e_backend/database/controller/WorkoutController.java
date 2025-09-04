@@ -26,19 +26,19 @@ public class WorkoutController {
         .orElse(Collections.emptyList());
   }
 
-  @PostMapping("/add/{userId}")
-  public Workout addUserWorkouts(@PathVariable String userId, @RequestBody Workout workout) {
+  @PostMapping("/add")
+  public Workout addWorkout(@RequestBody Workout workout) {
     return workoutsRepository.save(workout);
   }
 
   // @PutMapping("/edit/{id}")
-  // public Workout editUserWorkouts(@PathVariable String id, @RequestBody Workout newUserWorkouts)
+  // public Workout editWorkout(@PathVariable String id, @RequestBody Workout newWorkout)
   // {
   //   Optional<Workout> optionalWorkouts = workoutsRepository.findById(id);
   //   if (optionalWorkouts.isPresent()) {
   //     Workout existingWorkouts = optionalWorkouts.get();
-  //     existingWorkouts.setUserId(newUserWorkouts.getUserId());
-  //     existingWorkouts.setWorkouts(newUserWorkouts.getWorkouts());
+  //     existingWorkouts.setUserId(newWorkout.getUserId());
+  //     existingWorkouts.setWorkouts(newWorkout.getWorkouts());
   //     return workoutsRepository.save(existingWorkouts);
   //   } else {
   //     throw new RuntimeException("UserWorkouts not found - id: " + id);
