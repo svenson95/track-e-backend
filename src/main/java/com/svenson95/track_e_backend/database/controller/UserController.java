@@ -29,18 +29,14 @@ public class UserController {
     return userRepository.save(user);
   }
 
-  @PutMapping("/edit/{id}")
-  public User editUser(@PathVariable String id, @RequestBody User newUser) {
-    Optional<User> optionalUser = userRepository.findById(id);
-    if (optionalUser.isPresent()) {
-      User existingUser = optionalUser.get();
-      existingUser.setGoogleId(newUser.getGoogleId());
-      existingUser.setName(newUser.getName());
-      existingUser.setEmail(newUser.getEmail());
-      existingUser.setPicture(newUser.getPicture());
-      existingUser.setWeight(newUser.getWeight());
-      existingUser.setHeight(newUser.getHeight());
-      existingUser.setWorkoutIds(newUser.getWorkoutIds());
+  @PutMapping("/edit/{id}/add-workout/{workoutId}")
+  public User editUser(@PathVariable String id, @PathVariable Long workoutId) {
+    Optional<User> user = userRepository.findById(id);
+    if (user.isPresent()) {
+      User existingUser = user.get();
+      List<Long> workoutIds = existingUser.getWorkoutIds();
+      workoutIds.add(workoutId);
+      existingUser.setWorkoutIds(workoutIds);
       return userRepository.save(existingUser);
     } else {
       throw new RuntimeException("User not found - id: " + id);
