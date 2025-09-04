@@ -4,92 +4,69 @@ import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "user-workouts")
-public class UserWorkouts {
+@Document(collection = "workouts")
+public class Workout {
   @Id private String id;
 
-  private String userId;
-  private List<WorkoutData> workouts;
+  private Long userId; // MongoDB doc id
+  private Long workoutId;
+  private String lastUpdated; // UnixTimestring
+  private String name;
+  private List<ListItem> list;
 
-  public UserWorkouts() {}
+  public Workout() {}
 
-  public UserWorkouts(String userId, List<WorkoutData> workouts) {
+  public Workout(
+      Long userId, Long workoutId, String lastUpdated, String name, List<ListItem> list) {
     this.userId = userId;
-    this.workouts = workouts;
+    this.workoutId = workoutId;
+    this.lastUpdated = lastUpdated;
+    this.name = name;
+    this.list = list;
   }
 
   public String getId() {
     return id;
   }
 
-  public void setId(String id) {
-    this.id = id;
-  }
-
-  public String getUserId() {
+  public Long getUserId() {
     return userId;
   }
 
-  public void setUserId(String userId) {
+  public void setUserId(Long userId) {
     this.userId = userId;
   }
 
-  public List<WorkoutData> getWorkouts() {
-    return workouts;
+  public Long getWorkoutId() {
+    return workoutId;
   }
 
-  public void setWorkouts(List<WorkoutData> workouts) {
-    this.workouts = workouts;
+  public void setWorkoutId(Long workoutId) {
+    this.workoutId = workoutId;
   }
 
-  // --- Nested Classes ---
+  public String getLastUpdated() {
+    return lastUpdated;
+  }
 
-  public static class WorkoutData {
-    private Long workoutId;
-    private String lastUpdated; // UnixTimestring
-    private String name;
-    private List<ListItem> list;
+  public void setLastUpdated(String lastUpdated) {
+    this.lastUpdated = lastUpdated;
+  }
 
-    public WorkoutData() {}
+  public String getName() {
+    return name;
+  }
 
-    public WorkoutData(Long workoutId, String lastUpdated, String name, List<ListItem> list) {
-      this.workoutId = workoutId;
-      this.lastUpdated = lastUpdated;
-      this.name = name;
-      this.list = list;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public Long getWorkoutId() {
-      return workoutId;
-    }
+  public List<ListItem> getList() {
+    return list;
+  }
 
-    public void setWorkoutId(Long workoutId) {
-      this.workoutId = workoutId;
-    }
-
-    public String getLastUpdated() {
-      return lastUpdated;
-    }
-
-    public void setLastUpdated(String lastUpdated) {
-      this.lastUpdated = lastUpdated;
-    }
-
-    public String getName() {
-      return name;
-    }
-
-    public void setName(String name) {
-      this.name = name;
-    }
-
-    public List<ListItem> getList() {
-      return list;
-    }
-
-    public void setList(List<ListItem> list) {
-      this.list = list;
-    }
+  public void setList(List<ListItem> list) {
+    this.list = list;
   }
 
   public static class ListItem {

@@ -1,5 +1,6 @@
 package com.svenson95.track_e_backend.database.model;
 
+import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -13,17 +14,25 @@ public class User {
   private String email;
   private Number weight;
   private Number height;
+  private List<String> workouts;
 
   public User() {}
 
   public User(
-      String googleId, String name, String picture, String email, Number weight, Number height) {
+      String googleId,
+      String name,
+      String picture,
+      String email,
+      Number weight,
+      Number height,
+      List<String> workouts) {
     this.googleId = googleId;
     this.name = name;
     this.picture = picture;
     this.email = email;
     this.weight = weight;
     this.height = height;
+    this.workouts = workouts;
   }
 
   public String getId() {
@@ -80,5 +89,13 @@ public class User {
 
   public void setHeight(Number height) {
     this.height = height;
+  }
+
+  public List<String> getWorkouts() {
+    return workouts;
+  }
+
+  public void setWorkouts(List<String> workouts) {
+    this.workouts = workouts;
   }
 }

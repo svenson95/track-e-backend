@@ -61,6 +61,7 @@ public class GoogleAuthService {
       user.setPicture((String) payload.get("picture"));
       user.setWeight(0);
       user.setHeight(0);
+      user.setWorkouts(Collections.emptyList());
 
       userRepository.save(user);
     }
