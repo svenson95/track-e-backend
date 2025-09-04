@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Workout {
   @Id private String _id;
 
-  private Long userId; // MongoDB doc id
+  private String userId; // MongoDB doc id
   private Long workoutId;
   private String lastUpdated; // UnixTimestring
   private String name;
@@ -17,7 +17,7 @@ public class Workout {
   public Workout() {}
 
   public Workout(
-      Long userId, Long workoutId, String lastUpdated, String name, List<ListItem> list) {
+      String userId, Long workoutId, String lastUpdated, String name, List<ListItem> list) {
     this.userId = userId;
     this.workoutId = workoutId;
     this.lastUpdated = lastUpdated;
@@ -29,11 +29,11 @@ public class Workout {
     return _id;
   }
 
-  public Long getUserId() {
+  public String getUserId() {
     return userId;
   }
 
-  public void setUserId(Long userId) {
+  public void setUserId(String userId) {
     this.userId = userId;
   }
 
