@@ -42,4 +42,11 @@ public class UserController {
       throw new RuntimeException("User not found - id: " + id);
     }
   }
+
+  @PutMapping("/edit/{id}/update-sorting")
+  public User editUser(@PathVariable String id, @RequestBody List<Long> workoutIds) {
+    Optional<User> user = userRepository.findById(id);
+    user.ifPresent(u -> u.setWorkoutIds(workoutIds));
+    return userRepository.save(user.get());
+  }
 }
