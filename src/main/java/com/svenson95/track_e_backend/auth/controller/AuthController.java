@@ -1,9 +1,9 @@
 package com.svenson95.track_e_backend.auth.controller;
 
+import com.svenson95.track_e_backend.auth.service.DatabaseService;
 import com.svenson95.track_e_backend.auth.service.GoogleAuthService;
 import com.svenson95.track_e_backend.auth.service.JwtService;
 import com.svenson95.track_e_backend.database.model.User;
-import com.svenson95.track_e_backend.database.repository.UserRepository;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +19,7 @@ public class AuthController {
   private final GoogleAuthService googleAuthService;
   private final JwtService jwtService;
 
-  @Autowired private UserRepository userRepository;
+  @Autowired private DatabaseService databaseService;
 
   public AuthController(GoogleAuthService googleAuthService, JwtService jwtService) {
     this.googleAuthService = googleAuthService;
@@ -37,21 +37,7 @@ public class AuthController {
     }
 
     String jwt = jwtService.generateToken(userInfo);
-
-    User user =
-        userRepository
-            .findByGoogleId((String) userInfo.get("userId"))
-            .orElseGet(
-                () -> {
-                  User newUser = new User();
-                  newUser.setGoogleId((String) userInfo.get("userId"));
-                  newUser.setEmail((String) userInfo.get("email"));
-                  newUser.setName((String) userInfo.get("name"));
-                  newUser.setPicture((String) userInfo.get("picture"));
-                  newUser.setWeight(0);
-                  newUser.setHeight(0);
-                  return userRepository.save(newUser);
-                });
+    User user = databaseService.findOrCreateUser(userInfo);
 
     return ResponseEntity.ok(
         Map.of(
