@@ -5,7 +5,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "users")
 public class User {
-  @Id private String id;
+  @Id private String _id;
 
   private String googleId;
   private String name;
@@ -27,11 +27,7 @@ public class User {
   }
 
   public String getId() {
-    return id;
-  }
-
-  public void setId(String id) {
-    this.id = id;
+    return _id;
   }
 
   public String getGoogleId() {

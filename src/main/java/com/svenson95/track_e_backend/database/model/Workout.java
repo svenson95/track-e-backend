@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "workouts")
 public class Workout {
-  @Id private String id;
+  @Id private String _id;
 
   private Long userId; // MongoDB doc id
   private Long workoutId;
@@ -26,7 +26,7 @@ public class Workout {
   }
 
   public String getId() {
-    return id;
+    return _id;
   }
 
   public Long getUserId() {
