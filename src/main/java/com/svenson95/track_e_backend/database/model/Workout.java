@@ -12,17 +12,17 @@ public class Workout {
   private Long workoutId;
   private String lastUpdated; // UnixTimestring
   private String name;
-  private List<ListItem> list;
+  private List<WorkoutUnit> units;
 
   public Workout() {}
 
   public Workout(
-      String userId, Long workoutId, String lastUpdated, String name, List<ListItem> list) {
+      String userId, Long workoutId, String lastUpdated, String name, List<WorkoutUnit> units) {
     this.userId = userId;
     this.workoutId = workoutId;
     this.lastUpdated = lastUpdated;
     this.name = name;
-    this.list = list;
+    this.units = units;
   }
 
   public String getId() {
@@ -61,23 +61,23 @@ public class Workout {
     this.name = name;
   }
 
-  public List<ListItem> getList() {
-    return list;
+  public List<WorkoutUnit> getUnits() {
+    return units;
   }
 
-  public void setList(List<ListItem> list) {
-    this.list = list;
+  public void setUnits(List<WorkoutUnit> units) {
+    this.units = units;
   }
 
-  public static class ListItem {
+  public static class WorkoutUnit {
     private String name;
-    private ItemType type;
+    private List<WorkoutExercise> exercises;
 
-    public ListItem() {}
+    public WorkoutUnit() {}
 
-    public ListItem(String name, ItemType type) {
+    public WorkoutUnit(String name, List<WorkoutExercise> exercises) {
       this.name = name;
-      this.type = type;
+      this.exercises = exercises;
     }
 
     public String getName() {
@@ -88,43 +88,62 @@ public class Workout {
       this.name = name;
     }
 
-    public ItemType getType() {
-      return type;
+    public List<WorkoutExercise> getExercises() {
+      return exercises;
     }
 
-    public void setType(ItemType type) {
-      this.type = type;
+    public void setExercises(List<WorkoutExercise> exercises) {
+      this.exercises = exercises;
     }
   }
 
-  public static class Exercise extends ListItem {
-    private MuscleGroup muscleGroup;
+  public static class WorkoutExercise {
+    private String name;
+    private MuscleGroup muscleGroupPrimary;
+    private MuscleGroup muscleGroupSecondary;
     private String sets;
     private String reps;
     private String rest;
 
-    public Exercise() {}
+    public WorkoutExercise() {}
 
-    public Exercise(
+    public WorkoutExercise(
         String name,
-        ItemType type,
-        MuscleGroup muscleGroup,
+        MuscleGroup muscleGroupPrimary,
+        MuscleGroup muscleGroupSecondary,
         String sets,
         String reps,
         String rest) {
-      super(name, type);
-      this.muscleGroup = muscleGroup;
+      this.name = name;
+      this.muscleGroupPrimary = muscleGroupPrimary;
+      this.muscleGroupSecondary = muscleGroupSecondary;
       this.sets = sets;
       this.reps = reps;
       this.rest = rest;
     }
 
-    public MuscleGroup getMuscleGroup() {
-      return muscleGroup;
+    public String getName() {
+      return name;
     }
 
-    public void setMuscleGroup(MuscleGroup muscleGroup) {
-      this.muscleGroup = muscleGroup;
+    public void setName(String name) {
+      this.name = name;
+    }
+
+    public MuscleGroup getMuscleGroupPrimary() {
+      return muscleGroupPrimary;
+    }
+
+    public void setMuscleGroupPrimary(MuscleGroup muscleGroupPrimary) {
+      this.muscleGroupPrimary = muscleGroupPrimary;
+    }
+
+    public MuscleGroup getMuscleGroupSecondary() {
+      return muscleGroupSecondary;
+    }
+
+    public void setMuscleGroupSecondary(MuscleGroup muscleGroupSecondary) {
+      this.muscleGroupSecondary = muscleGroupSecondary;
     }
 
     public String getSets() {
@@ -150,12 +169,6 @@ public class Workout {
     public void setRest(String rest) {
       this.rest = rest;
     }
-  }
-
-  public enum ItemType {
-    EXERCISE,
-    LABEL,
-    SPACE
   }
 
   public enum MuscleGroup {
