@@ -38,14 +38,8 @@ public class AuthController {
       return ResponseEntity.status(401).body(Map.of("error", "Invalid Google Token"));
     }
 
-    System.out.println("SVENBRODNY-TEST: userInfo: ");
-    System.out.println(userInfo);
-
     String jwt = jwtService.generateToken(userInfo);
     User user = databaseService.findOrCreateUser(userInfo);
-
-    System.out.println("SVENBRODNY-TEST: jwt: ");
-    System.out.println(jwt);
 
     return ResponseEntity.ok(
         Map.of(

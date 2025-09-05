@@ -30,10 +30,6 @@ public class JwtService {
 
   public String generateToken(Map<String, Object> userInfo) {
     String subject = userInfo.get("email").toString();
-    System.out.println("SVENBRODNY-TEST: email: ");
-    System.out.println(subject);
-    System.out.println("SVENBRODNY-TEST: secret key: ");
-    System.out.println(this.secretKey);
 
     long EXPIRATION_TIME = 1000 * 60 * 60 * 24 * 7; // 7 days
     Date now = new Date();
