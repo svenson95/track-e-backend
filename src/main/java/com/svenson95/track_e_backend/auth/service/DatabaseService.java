@@ -11,6 +11,10 @@ import org.springframework.stereotype.Service;
 public class DatabaseService {
   @Autowired private UserRepository userRepository;
 
+  public User findByUserId(String googleId) {
+    return userRepository.findByGoogleId(googleId).get();
+  }
+
   public User findOrCreateUser(Map<String, Object> userInfo) {
     String id = (String) userInfo.get("userId");
     return userRepository.findByGoogleId(id).orElseGet(() -> this.createNewUser(userInfo));

@@ -7,8 +7,10 @@ import com.svenson95.track_e_backend.database.model.User;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -43,5 +45,38 @@ public class AuthController {
         Map.of(
             "token", jwt,
             "user", user));
+  }
+
+  @GetMapping("/verify")
+  public ResponseEntity<Map<String, Object>> verifyToken(
+      @RequestHeader("Authorization") String authHeader) {
+    if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+      return ResponseEntity.status(401)
+          .body(Map.of("error", "Missing or invalid Authorization header"));
+    }
+
+    String token = authHeader.substring(7);
+
+    try {
+      Map<String, Object> claims = jwtService.validateToken(token);
+      String userId = (String) claims.get("userId");
+      User user = databaseService.findByUserId(userId);
+
+      if (user == null) {
+        return ResponseEntity.status(404).body(Map.of("error", "User not found"));
+      }
+
+      return ResponseEntity.ok(Map.of("valid", true, "user", user));
+
+    } catch (JwtService.TokenExpiredException e) {
+      return ResponseEntity.status(401)
+          .body(
+              Map.of(
+                  "valid", false,
+                  "error", "Token expired",
+                  "action", "relogin_with_google"));
+    } catch (Exception e) {
+      return ResponseEntity.status(401).body(Map.of("error", "Invalid token"));
+    }
   }
 }
