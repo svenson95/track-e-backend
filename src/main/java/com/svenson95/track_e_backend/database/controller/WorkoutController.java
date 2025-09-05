@@ -42,13 +42,17 @@ public class WorkoutController {
   }
 
   @DeleteMapping("/delete/{id}")
-  public ResponseEntity<Void> deleteWorkout(@PathVariable String id) {
-    if (workoutsRepository.existsById(id)) {
-      workoutsRepository.deleteById(id);
-      return ResponseEntity.noContent().build(); // 204
-    } else {
-      return ResponseEntity.notFound().build(); // 404
-    }
+  public ResponseEntity<Object> deleteWorkout(@PathVariable String id) {
+    return workoutsRepository
+        .findById(id)
+        .map(
+            workout -> {
+              String userId = workout.getUserId();
+              workoutsRepository.deleteById(id);
+              userService.removeWorkoutFromList(userId, workout.getWorkoutId());
+              return ResponseEntity.noContent().build(); // 204
+            })
+        .orElseGet(() -> ResponseEntity.notFound().build()); // 404
   }
 
   // @PutMapping("/edit/{id}")

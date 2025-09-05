@@ -17,4 +17,15 @@ public class UserService {
     user.ifPresent(u -> u.getWorkoutIds().add(workout.getWorkoutId()));
     userRepository.save(user.get());
   }
+
+  public void removeWorkoutFromList(String userId, Long workoutId) {
+    userRepository
+        .findById(userId)
+        .ifPresent(
+            u -> {
+              if (u.getWorkoutIds().remove(workoutId)) {
+                userRepository.save(u);
+              }
+            });
+  }
 }
