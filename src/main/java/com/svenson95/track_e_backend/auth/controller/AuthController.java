@@ -66,7 +66,7 @@ public class AuthController {
         return ResponseEntity.status(404).body(Map.of("error", "User not found"));
       }
 
-      return ResponseEntity.ok(Map.of("valid", true, "user", user));
+      return ResponseEntity.ok(Map.of("token", token, "user", user));
 
     } catch (JwtService.TokenExpiredException e) {
       return ResponseEntity.status(401)
