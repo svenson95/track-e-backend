@@ -29,7 +29,7 @@ public class JwtService {
   }
 
   public String generateToken(Map<String, Object> userInfo) {
-    String subject = (String) userInfo.get("sub");
+    String subject = (String) userInfo.get("email").toString();
 
     long EXPIRATION_TIME = 1000 * 60 * 60 * 24 * 7; // 7 days
     Date now = new Date();
