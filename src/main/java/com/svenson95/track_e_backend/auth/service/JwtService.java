@@ -4,7 +4,6 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
@@ -18,7 +17,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class JwtService {
 
-  private static final String SECRET_KEY = System.getenv("JWT_SECRET");
   private Key secretKey;
 
   @PostConstruct
@@ -32,6 +30,10 @@ public class JwtService {
 
   public String generateToken(Map<String, Object> userInfo) {
     String subject = userInfo.get("email").toString();
+    System.out.println("SVENBRODNY-TEST: email: ");
+    System.out.println(subject);
+    System.out.println("SVENBRODNY-TEST: secret key: ");
+    System.out.println(this.secretKey);
 
     long EXPIRATION_TIME = 1000 * 60 * 60 * 24 * 7; // 7 days
     Date now = new Date();
@@ -42,7 +44,7 @@ public class JwtService {
         .setSubject(subject)
         .setIssuedAt(now)
         .setExpiration(expiryDate)
-        .signWith(SignatureAlgorithm.HS256, SECRET_KEY.getBytes())
+        .signWith(this.secretKey)
         .compact();
   }
 
