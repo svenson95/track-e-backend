@@ -6,6 +6,8 @@ import com.svenson95.track_e_backend.database.service.UserService;
 import java.util.Collections;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,6 +39,16 @@ public class WorkoutController {
   public Workout addWorkout(@RequestBody Workout workout) {
     userService.addWorkoutToList(workout);
     return workoutsRepository.save(workout);
+  }
+
+  @DeleteMapping("/delete/{id}")
+  public ResponseEntity<Void> deleteWorkout(@PathVariable String id) {
+    if (workoutsRepository.existsById(id)) {
+      workoutsRepository.deleteById(id);
+      return ResponseEntity.noContent().build(); // 204
+    } else {
+      return ResponseEntity.notFound().build(); // 404
+    }
   }
 
   // @PutMapping("/edit/{id}")
