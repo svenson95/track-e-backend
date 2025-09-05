@@ -4,6 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class JwtService {
 
+  private static final String SECRET_KEY = System.getenv("JWT_SECRET");
   private Key secretKey;
 
   @PostConstruct
@@ -40,7 +42,7 @@ public class JwtService {
         .setSubject(subject)
         .setIssuedAt(now)
         .setExpiration(expiryDate)
-        .signWith(this.secretKey)
+        .signWith(SignatureAlgorithm.HS256, SECRET_KEY.getBytes())
         .compact();
   }
 
