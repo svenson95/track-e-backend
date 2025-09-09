@@ -1,11 +1,9 @@
 package com.svenson95.track_e_backend.database.mapper;
 
-import java.util.List;
-
-import org.mapstruct.Mapper;
-
 import com.svenson95.track_e_backend.database.dto.UserDTO;
 import com.svenson95.track_e_backend.database.model.User;
+import java.util.List;
+import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {

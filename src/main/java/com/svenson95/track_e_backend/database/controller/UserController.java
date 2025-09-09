@@ -1,9 +1,9 @@
 package com.svenson95.track_e_backend.database.controller;
 
 import com.svenson95.track_e_backend.database.dto.UserDTO;
-import com.svenson95.track_e_backend.database.model.User;
 import com.svenson95.track_e_backend.database.service.UserService;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/users")
 public class UserController {
 
-  private UserService userService;
+  @Autowired private UserService userService;
 
   @GetMapping("/")
   public List<UserDTO> getAllUsers() {
@@ -29,12 +29,12 @@ public class UserController {
   }
 
   @PutMapping("/edit/{id}/add-workout/{workoutId}")
-  public User putEditUserAddWorkout(@PathVariable String id, @PathVariable Long workoutId) {
-    return userService.addUserWorkout(id, workoutId);
+  public UserDTO putEditUserAddWorkout(@PathVariable String id, @PathVariable Long workoutId) {
+    return userService.addWorkoutIdToUserWorkouts(id, workoutId);
   }
 
   @PutMapping("/edit/{id}/update-sorting")
-  public User putEditUserUpdateSorting(
+  public UserDTO putEditUserUpdateSorting(
       @PathVariable String id, @RequestBody List<Long> workoutIds) {
     return userService.editUserWorkoutsSorting(id, workoutIds);
   }

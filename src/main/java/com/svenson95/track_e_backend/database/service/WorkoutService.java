@@ -1,14 +1,11 @@
 package com.svenson95.track_e_backend.database.service;
 
-import java.util.List;
-
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
-
 import com.svenson95.track_e_backend.database.dto.WorkoutDTO;
 import com.svenson95.track_e_backend.database.mapper.WorkoutMapper;
 import com.svenson95.track_e_backend.database.model.Workout;
 import com.svenson95.track_e_backend.database.repository.WorkoutRepository;
+import java.util.List;
+import org.springframework.stereotype.Service;
 
 @Service
 public class WorkoutService {
@@ -33,20 +30,19 @@ public class WorkoutService {
   public WorkoutDTO createWorkout(WorkoutDTO dto) {
     Workout workout = workoutMapper.toEntity(dto);
     Workout saved = workoutRepository.save(workout);
-    userService.addWorkoutToList(dto);
+    userService.addWorkoutIdToUserWorkouts(saved.getUserId(), saved.getWorkoutId());
     return workoutMapper.toDto(saved);
   }
 
-  public ResponseEntity<Object> deleteById(String id) {
+  public boolean deleteById(String id) {
     return workoutRepository
         .findById(id)
         .map(
             workout -> {
-              String userId = workout.getUserId();
               workoutRepository.deleteById(id);
-              userService.removeWorkoutFromList(userId, workout.getWorkoutId());
-              return ResponseEntity.noContent().build(); // 204
+              userService.removeWorkoutFromList(workout.getUserId(), workout.getWorkoutId());
+              return true;
             })
-        .orElseGet(() -> ResponseEntity.notFound().build()); // 404
+        .orElse(false);
   }
 }
