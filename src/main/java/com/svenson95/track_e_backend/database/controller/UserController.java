@@ -1,10 +1,9 @@
 package com.svenson95.track_e_backend.database.controller;
 
+import com.svenson95.track_e_backend.database.dto.UserDTO;
 import com.svenson95.track_e_backend.database.model.User;
-import com.svenson95.track_e_backend.database.repository.UserRepository;
+import com.svenson95.track_e_backend.database.service.UserService;
 import java.util.List;
-import java.util.Optional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,36 +16,26 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/users")
 public class UserController {
 
-  @Autowired private UserRepository userRepository;
+  private UserService userService;
 
   @GetMapping("/")
-  public List<User> getAllUsers() {
-    return userRepository.findAll();
+  public List<UserDTO> getAllUsers() {
+    return userService.findAll();
   }
 
   @PostMapping("/add")
-  public User addUser(@RequestBody User user) {
-    return userRepository.save(user);
+  public UserDTO postAddUser(@RequestBody UserDTO user) {
+    return userService.createUser(user);
   }
 
   @PutMapping("/edit/{id}/add-workout/{workoutId}")
-  public User editUser(@PathVariable String id, @PathVariable Long workoutId) {
-    Optional<User> user = userRepository.findById(id);
-    if (user.isPresent()) {
-      User existingUser = user.get();
-      List<Long> workoutIds = existingUser.getWorkoutIds();
-      workoutIds.add(workoutId);
-      existingUser.setWorkoutIds(workoutIds);
-      return userRepository.save(existingUser);
-    } else {
-      throw new RuntimeException("User not found - id: " + id);
-    }
+  public User putEditUserAddWorkout(@PathVariable String id, @PathVariable Long workoutId) {
+    return userService.addUserWorkout(id, workoutId);
   }
 
   @PutMapping("/edit/{id}/update-sorting")
-  public User editUser(@PathVariable String id, @RequestBody List<Long> workoutIds) {
-    Optional<User> user = userRepository.findById(id);
-    user.ifPresent(u -> u.setWorkoutIds(workoutIds));
-    return userRepository.save(user.get());
+  public User putEditUserUpdateSorting(
+      @PathVariable String id, @RequestBody List<Long> workoutIds) {
+    return userService.editUserWorkoutsSorting(id, workoutIds);
   }
 }

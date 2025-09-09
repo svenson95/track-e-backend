@@ -1,10 +1,7 @@
 package com.svenson95.track_e_backend.database.controller;
 
-import com.svenson95.track_e_backend.database.model.Workout;
-import com.svenson95.track_e_backend.database.repository.WorkoutRepository;
-import com.svenson95.track_e_backend.database.service.UserService;
-import java.util.Collections;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,57 +12,27 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.svenson95.track_e_backend.database.dto.WorkoutDTO;
+import com.svenson95.track_e_backend.database.service.WorkoutService;
+
 @RestController
 @RequestMapping("/api/workouts")
 public class WorkoutController {
 
-  @Autowired private WorkoutRepository workoutsRepository;
-  @Autowired private UserService userService;
+  @Autowired private WorkoutService workoutService;
 
   @GetMapping("/get/{userId}")
-  public List<Workout> getWorkouts(@PathVariable String userId) {
-    List<Workout> workouts = workoutsRepository.findByUserId(userId).get();
-
-    if (workouts == null || workouts.isEmpty()) {
-      return Collections.emptyList();
-    } else if (workouts.size() == 1) {
-      return Collections.singletonList(workouts.get(0));
-    } else {
-      return workouts;
-    }
+  public List<WorkoutDTO> getWorkouts(@PathVariable String userId) {
+    return workoutService.findUserWorkouts(userId);
   }
 
   @PostMapping("/add")
-  public Workout addWorkout(@RequestBody Workout workout) {
-    userService.addWorkoutToList(workout);
-    return workoutsRepository.save(workout);
+  public WorkoutDTO addWorkout(@RequestBody WorkoutDTO workout) {
+    return workoutService.createWorkout(workout);
   }
 
   @DeleteMapping("/delete/{id}")
   public ResponseEntity<Object> deleteWorkout(@PathVariable String id) {
-    return workoutsRepository
-        .findById(id)
-        .map(
-            workout -> {
-              String userId = workout.getUserId();
-              workoutsRepository.deleteById(id);
-              userService.removeWorkoutFromList(userId, workout.getWorkoutId());
-              return ResponseEntity.noContent().build(); // 204
-            })
-        .orElseGet(() -> ResponseEntity.notFound().build()); // 404
+    return workoutService.deleteById(id);
   }
-
-  // @PutMapping("/edit/{id}")
-  // public Workout editWorkout(@PathVariable String id, @RequestBody Workout newWorkout)
-  // {
-  //   Optional<Workout> optionalWorkouts = workoutsRepository.findById(id);
-  //   if (optionalWorkouts.isPresent()) {
-  //     Workout existingWorkouts = optionalWorkouts.get();
-  //     existingWorkouts.setUserId(newWorkout.getUserId());
-  //     existingWorkouts.setWorkouts(newWorkout.getWorkouts());
-  //     return workoutsRepository.save(existingWorkouts);
-  //   } else {
-  //     throw new RuntimeException("UserWorkouts not found - id: " + id);
-  //   }
-  // }
 }

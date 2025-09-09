@@ -1,33 +1,21 @@
-package com.svenson95.track_e_backend.database.model;
+package com.svenson95.track_e_backend.database.dto;
 
 import java.util.List;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
-@Document(collection = "workouts")
-public class Workout {
-  @Id private String _id;
-
-  private String userId; // MongoDB doc id
+public class WorkoutDTO {
+  private String id; // MongoDB doc id
+  private String userId;
   private Long workoutId;
   private String lastUpdated; // UnixTimestring
   private String name;
-  private List<ListItem> list;
-
-  public Workout() {}
-
-  public Workout(
-      String userId, Long workoutId, String lastUpdated, String name, List<ListItem> list) {
-    this.userId = userId;
-    this.workoutId = workoutId;
-    this.lastUpdated = lastUpdated;
-    this.name = name;
-    this.list = list;
-  }
+  private List<ListItemDTO> list;
 
   public String getId() {
-    return _id;
+    return id;
+  }
+
+  public void setId(String id) {
+    this.id = id;
   }
 
   public String getUserId() {
@@ -62,24 +50,17 @@ public class Workout {
     this.name = name;
   }
 
-  public List<ListItem> getList() {
+  public List<ListItemDTO> getList() {
     return list;
   }
 
-  public void setList(List<ListItem> list) {
+  public void setList(List<ListItemDTO> list) {
     this.list = list;
   }
 
-  public static class ListItem {
-    private String name;
+  public static class ListItemDTO {
+    private String name; // nullable
     private ListItemType type;
-
-    public ListItem() {}
-
-    public ListItem(String name, ListItemType type) {
-      this.name = name;
-      this.type = type;
-    }
 
     public String getName() {
       return name;
@@ -98,30 +79,12 @@ public class Workout {
     }
   }
 
-  public static class ListItemExercise extends ListItem {
+  public static class ListItemExerciseDTO extends ListItemDTO {
     private ExerciseEquipment equipment;
-    private ExerciseVariant variant;
-    private String sets;
-    private String reps;
-    private String rest;
-
-    public ListItemExercise() {}
-
-    public ListItemExercise(
-        String name,
-        ListItemType type,
-        ExerciseEquipment equipment,
-        ExerciseVariant variant,
-        String sets,
-        String reps,
-        String rest) {
-      super(name, type);
-      this.equipment = equipment;
-      this.variant = variant;
-      this.sets = sets;
-      this.reps = reps;
-      this.rest = rest;
-    }
+    private ExerciseVariant variant; // nullable
+    private String sets; // nullable
+    private String reps; // nullable
+    private String rest; // nullable
 
     public ExerciseEquipment getEquipment() {
       return equipment;
@@ -164,6 +127,7 @@ public class Workout {
     }
   }
 
+  // ---------- Enums ----------
   public enum ListItemType {
     HEADER,
     EXERCISE,
@@ -180,15 +144,24 @@ public class Workout {
   }
 
   public enum ExerciseVariant {
+    // benchpress
     flat,
     decline,
     incline,
+
+    // legs
     normal,
     stiff_leg,
+
+    // calves
     standing,
     seated,
+
+    // biceps
     hammer,
     concentration,
+
+    // back
     wide,
     close,
     one_arm,
@@ -210,8 +183,10 @@ public class Workout {
     abs,
     core,
     chest,
+    front_delta,
+    middle_delta,
+    rear_delta,
     traps,
-    shoulders,
     neck
   }
 }
